@@ -31,7 +31,7 @@ public class UsuarioController {
 
     @PostMapping("/login")
     public ResponseEntity<UsuarioLoginResponse> login(@RequestBody UsuarioLoginRequest loginRequest) {
-        var usuario = usuarioRepository.findByEmail(loginRequest.login());
+        var usuario = usuarioRepository.findByEmailOrCpf(loginRequest.login());
         if(usuario.isEmpty() || !loginEstaCorreto(loginRequest.senha(), usuario.get().getSenha())){
             throw new BadCredentialsException("Usuario ou senha invalidos");
         }
