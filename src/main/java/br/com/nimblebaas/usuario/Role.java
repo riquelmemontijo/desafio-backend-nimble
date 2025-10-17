@@ -11,6 +11,14 @@ public class Role {
     @Column(nullable = false, length = 50)
     private String descricao;
 
+    public Role() {
+    }
+
+    public Role(Long id, String descricao) {
+        this.id = id;
+        this.descricao = descricao;
+    }
+
     public Long getId() {
         return id;
     }
@@ -29,7 +37,7 @@ public class Role {
 
     public enum RoleValues{
         ADMIN(1L),
-        BASIC(2L);
+        BASICO(2L);
 
         final long id;
 

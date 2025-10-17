@@ -1,5 +1,6 @@
 package br.com.nimblebaas.usuario;
 
+import br.com.nimblebaas.usuario.dto.UsuarioCriacaoRequest;
 import jakarta.persistence.*;
 
 import java.util.Set;
@@ -25,6 +26,13 @@ public class Usuario {
     private Set<Role> roles;
 
     public Usuario() {
+    }
+
+    public Usuario(UsuarioCriacaoRequest usuario) {
+        this.email = usuario.email();
+        this.cpf = usuario.cpf();
+        this.nome = usuario.nome();
+        this.senha = usuario.senha();
     }
 
     public Usuario(Long id, String email, String cpf, String nome, String senha, Set<Role> roles) {
