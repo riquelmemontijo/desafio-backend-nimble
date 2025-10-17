@@ -1,0 +1,14 @@
+services:
+  db:
+    image: mysql
+    environment:
+      MYSQL_DATABASE: nimble
+      MYSQL_ROOT_PASSWORD: senha
+    ports:
+      - '3306:3306'
+    expose:
+      - '3306'
+    volumes:
+      - mysql.nimble:/var/lib/mysql
+volumes:
+  mysql.nimble:
