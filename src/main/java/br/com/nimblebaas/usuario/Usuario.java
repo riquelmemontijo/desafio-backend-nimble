@@ -24,6 +24,18 @@ public class Usuario {
                inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles;
 
+    public Usuario() {
+    }
+
+    public Usuario(Long id, String email, String cpf, String nome, String senha, Set<Role> roles) {
+        this.id = id;
+        this.email = email;
+        this.cpf = cpf;
+        this.nome = nome;
+        this.senha = senha;
+        this.roles = roles;
+    }
+
     public Long getId() {
         return id;
     }
