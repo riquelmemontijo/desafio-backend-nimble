@@ -1,6 +1,7 @@
 package br.com.nimblebaas.cobranca;
 
-import br.com.nimblebaas.cobranca.dto.CriarCobrancaDTO;
+import br.com.nimblebaas.cobranca.dto.CriarCobrancaRequestDTO;
+import br.com.nimblebaas.cobranca.dto.CriarCobrancaResponseDTO;
 import br.com.nimblebaas.usuario.Usuario;
 import br.com.nimblebaas.usuario.UsuarioRepository;
 import org.springframework.security.core.Authentication;
@@ -18,9 +19,9 @@ public class CobrancaService {
         this.usuarioRepository = usuarioRepository;
     }
 
-    public Cobranca criarCobranca(CriarCobrancaDTO cobranca){
+    public CriarCobrancaResponseDTO criarCobranca(CriarCobrancaRequestDTO cobranca){
         Cobranca cobrancaModel = configuraCobranca(new Cobranca(cobranca));
-        return cobrancaRepository.save(cobrancaModel);
+        return new CriarCobrancaResponseDTO(cobrancaRepository.save(cobrancaModel));
     }
 
     private Cobranca configuraCobranca(Cobranca cobranca){

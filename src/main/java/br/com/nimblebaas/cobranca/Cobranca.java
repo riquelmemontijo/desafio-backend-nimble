@@ -1,6 +1,6 @@
 package br.com.nimblebaas.cobranca;
 
-import br.com.nimblebaas.cobranca.dto.CriarCobrancaDTO;
+import br.com.nimblebaas.cobranca.dto.CriarCobrancaRequestDTO;
 import br.com.nimblebaas.usuario.Usuario;
 import jakarta.persistence.*;
 
@@ -28,7 +28,7 @@ public class Cobranca {
     public Cobranca() {
     }
 
-    public Cobranca(CriarCobrancaDTO cobranca) {
+    public Cobranca(CriarCobrancaRequestDTO cobranca) {
         this.cpfDestinatario = cobranca.cpfDestinatario();
         this.valor = cobranca.valor();
         this.descricao = cobranca.descricao();
