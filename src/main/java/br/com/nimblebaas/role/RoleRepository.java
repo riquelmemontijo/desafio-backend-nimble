@@ -1,4 +1,4 @@
-package br.com.nimblebaas.usuario;
+package br.com.nimblebaas.role;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;

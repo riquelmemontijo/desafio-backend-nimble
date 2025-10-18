@@ -1,5 +1,6 @@
 package br.com.nimblebaas.usuario;
 
+import br.com.nimblebaas.role.Role;
 import br.com.nimblebaas.usuario.dto.UsuarioCriacaoRequest;
 import jakarta.persistence.*;
 

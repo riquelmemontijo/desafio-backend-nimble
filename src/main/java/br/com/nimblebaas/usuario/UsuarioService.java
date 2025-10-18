@@ -1,5 +1,7 @@
 package br.com.nimblebaas.usuario;
 
+import br.com.nimblebaas.role.Role;
+import br.com.nimblebaas.role.RoleRepository;
 import br.com.nimblebaas.usuario.dto.UsuarioCriacaoRequest;
 import br.com.nimblebaas.usuario.dto.UsuarioCriacaoResponse;
 import br.com.nimblebaas.usuario.dto.UsuarioLoginRequest;

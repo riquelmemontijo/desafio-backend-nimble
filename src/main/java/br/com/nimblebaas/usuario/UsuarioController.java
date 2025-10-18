@@ -1,5 +1,6 @@
 package br.com.nimblebaas.usuario;
 
+import br.com.nimblebaas.role.RoleRepository;
 import br.com.nimblebaas.usuario.dto.UsuarioCriacaoRequest;
 import br.com.nimblebaas.usuario.dto.UsuarioCriacaoResponse;
 import br.com.nimblebaas.usuario.dto.UsuarioLoginRequest;
@@ -11,8 +12,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.Set;
 
 @RestController
 @RequestMapping("/usuarios")

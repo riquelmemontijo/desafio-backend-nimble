@@ -1,4 +1,4 @@
-package br.com.nimblebaas.usuario;
+package br.com.nimblebaas.role;
 
 import jakarta.persistence.*;
 

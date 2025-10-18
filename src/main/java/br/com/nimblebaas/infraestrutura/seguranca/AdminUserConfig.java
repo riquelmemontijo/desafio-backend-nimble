@@ -1,7 +1,7 @@
 package br.com.nimblebaas.infraestrutura.seguranca;
 
-import br.com.nimblebaas.usuario.Role;
-import br.com.nimblebaas.usuario.RoleRepository;
+import br.com.nimblebaas.role.Role;
+import br.com.nimblebaas.role.RoleRepository;
 import br.com.nimblebaas.usuario.Usuario;
 import br.com.nimblebaas.usuario.UsuarioRepository;
 import org.springframework.boot.CommandLineRunner;
