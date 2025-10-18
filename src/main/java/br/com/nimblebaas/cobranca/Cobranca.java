@@ -1,5 +1,6 @@
 package br.com.nimblebaas.cobranca;
 
+import br.com.nimblebaas.cobranca.dto.CriarCobrancaDTO;
 import br.com.nimblebaas.usuario.Usuario;
 import jakarta.persistence.*;
 
@@ -23,6 +24,15 @@ public class Cobranca {
     @Column(nullable = false, length = 10)
     private StatusCobranca statusCobranca;
     private String descricao;
+
+    public Cobranca() {
+    }
+
+    public Cobranca(CriarCobrancaDTO cobranca) {
+        this.cpfDestinatario = cobranca.cpfDestinatario();
+        this.valor = cobranca.valor();
+        this.descricao = cobranca.descricao();
+    }
 
     public Long getId() {
         return id;
