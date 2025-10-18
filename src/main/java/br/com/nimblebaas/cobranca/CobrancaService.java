@@ -1,9 +1,12 @@
 package br.com.nimblebaas.cobranca;
 
+import br.com.nimblebaas.cobranca.dto.CobrancaResponseDTO;
 import br.com.nimblebaas.cobranca.dto.CriarCobrancaRequestDTO;
 import br.com.nimblebaas.cobranca.dto.CriarCobrancaResponseDTO;
 import br.com.nimblebaas.usuario.Usuario;
 import br.com.nimblebaas.usuario.UsuarioRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -22,6 +25,13 @@ public class CobrancaService {
     public CriarCobrancaResponseDTO criarCobranca(CriarCobrancaRequestDTO cobranca){
         Cobranca cobrancaModel = configuraCobranca(new Cobranca(cobranca));
         return new CriarCobrancaResponseDTO(cobrancaRepository.save(cobrancaModel));
+    }
+
+    public Page<CobrancaResponseDTO> obterCobrancas(Pageable pageable, StatusCobranca status, TipoRelacaoCobranca tipoRelacaoCobranca){
+        var usuario = getUsuarioLogado();
+        Page<Cobranca> cobrancas = cobrancaRepository.findAll(CobrancaSpecification.porStatusDaCobranca(status)
+                .and(CobrancaSpecification.porRelacaoComACobranca(usuario, tipoRelacaoCobranca)), pageable);
+        return cobrancas.map(CobrancaResponseDTO::new);
     }
 
     private Cobranca configuraCobranca(Cobranca cobranca){
