@@ -1,5 +1,6 @@
 package br.com.nimblebaas.usuario.dto;
 
+import br.com.nimblebaas.infraestrutura.validacao.cpf.Cpf;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import org.hibernate.validator.constraints.br.CPF;
@@ -9,7 +10,7 @@ public record UsuarioCriacaoRequest(@NotBlank
                                     @NotBlank
                                     @Email
                                     String email,
-                                    @NotBlank
+                                    @Cpf
                                     String cpf,
                                     @NotBlank
                                     String senha) {
