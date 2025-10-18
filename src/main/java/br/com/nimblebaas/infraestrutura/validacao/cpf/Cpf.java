@@ -10,7 +10,7 @@ import java.lang.annotation.*;
 @Target({ElementType.FIELD, ElementType.PARAMETER})
 @Retention(RetentionPolicy.RUNTIME)
 public @interface Cpf {
-    String message() default "{br.com.nimblebaas.validacao.Cpf.message}";
+    String message() default "O CPF informádo é inválido";
 
     Class<?>[] groups() default {};
 
