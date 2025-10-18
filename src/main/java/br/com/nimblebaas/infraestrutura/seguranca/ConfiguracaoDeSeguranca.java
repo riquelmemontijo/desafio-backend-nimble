@@ -38,8 +38,8 @@ public class ConfiguracaoDeSeguranca {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
         http.authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/usuarios/login").permitAll()
-                        .requestMatchers("/usuarios/criar-usuario").permitAll()
+                        .requestMatchers("/usuarios/sign-in").permitAll()
+                        .requestMatchers("/usuarios/sign-up").permitAll()
                         .anyRequest().authenticated())
             .csrf(AbstractHttpConfigurer::disable)
             .oauth2ResourceServer(oauth2 -> oauth2.jwt(Customizer.withDefaults()))
