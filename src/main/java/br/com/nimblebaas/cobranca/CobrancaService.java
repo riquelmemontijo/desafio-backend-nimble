@@ -81,7 +81,7 @@ public class CobrancaService {
     }
 
     @Transactional
-    public String pagarCobrancaComCartaoDeCredito(Long idCobranca, CartaoDeCreditoDTO cartao){
+    public TransferenciaResponseDTO pagarCobrancaComCartaoDeCredito(Long idCobranca, CartaoDeCreditoDTO cartao){
         var response = clientAutorizador.solicitarAutorizacao();
         if (!response.getData().isAuthorized()) {
             throw new RegraDeNegocioException("Transação não autorizada");
@@ -92,7 +92,8 @@ public class CobrancaService {
         validacaoPagamentoCobrancaCartao.forEach(validacao -> validacao.validar(cartao));
         cobranca.setStatusCobranca(StatusCobranca.PAGA);
         cobrancaRepository.save(cobranca);
-        return "Pagamento realizado com sucesso.";
+        var mensagem = "Transação realizada com sucesso. Cobrança paga!";
+        return new TransferenciaResponseDTO(cobranca, cobranca.getOriginador(), cobranca.getDestinatario(), mensagem);
     }
 
     private Cobranca configurarCobrancaParaCadastro(Cobranca cobranca){
