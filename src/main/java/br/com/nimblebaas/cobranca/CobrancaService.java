@@ -89,7 +89,7 @@ public class CobrancaService {
         var cobranca = cobrancaRepository.findById(idCobranca)
                 .orElseThrow(() -> new RegistroNaoEncontradoException("Cobranca não foi localizada no sistema"));
         validacaoPagamentoCobranca.forEach(validacao -> validacao.validar(cobranca));
-        validacaoPagamentoCobrancaCartao.forEach(validacao -> validacao.validar(cobranca));
+        validacaoPagamentoCobrancaCartao.forEach(validacao -> validacao.validar(cartao));
         cobranca.setStatusCobranca(StatusCobranca.PAGA);
         cobrancaRepository.save(cobranca);
         return "Pagamento realizado com sucesso.";

@@ -1,8 +1,12 @@
 package br.com.nimblebaas.cobranca.dto;
 
-import java.time.LocalDate;
+import br.com.nimblebaas.infraestrutura.validacao.numcartao.CartaoCredito;
+import jakarta.validation.constraints.Pattern;
 
-public record CartaoDeCreditoDTO(String numero,
-                                 LocalDate validade,
+public record CartaoDeCreditoDTO(@CartaoCredito
+                                 String numero,
+                                 @Pattern(regexp = "^(0[1-9]|1[0-2])/\\d{2}$")
+                                 String dataValidade,
+                                 @Pattern(regexp = "^\\d{3,4}$")
                                  String cvv) {
 }

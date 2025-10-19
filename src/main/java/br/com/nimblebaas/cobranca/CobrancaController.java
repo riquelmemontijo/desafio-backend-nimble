@@ -36,7 +36,7 @@ public class CobrancaController {
     }
 
     @PostMapping("/pagar-com-cartao")
-    public ResponseEntity<String> pagarCobrancaComCartaoDeCredito(@RequestParam Long idCobranca, @RequestBody CartaoDeCreditoDTO cartao){
+    public ResponseEntity<String> pagarCobrancaComCartaoDeCredito(@RequestParam Long idCobranca, @RequestBody @Valid CartaoDeCreditoDTO cartao){
         return ResponseEntity.ok(cobrancaService.pagarCobrancaComCartaoDeCredito(idCobranca, cartao));
     }
 
