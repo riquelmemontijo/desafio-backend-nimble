@@ -29,7 +29,7 @@ public class AutorizadorResponse {
         this.data = data;
     }
 
-    private class Data {
+    public static class Data {
         private boolean authorized;
 
         public Data() {

@@ -1,10 +1,8 @@
 package br.com.nimblebaas.cobranca;
 
-import br.com.nimblebaas.cobranca.dto.CobrancaResponseDTO;
-import br.com.nimblebaas.cobranca.dto.CriarCobrancaRequestDTO;
-import br.com.nimblebaas.cobranca.dto.CriarCobrancaResponseDTO;
-import br.com.nimblebaas.cobranca.dto.TransferenciaResponseDTO;
+import br.com.nimblebaas.cobranca.dto.*;
 import br.com.nimblebaas.infraestrutura.exception.RegraDeNegocioException;
+import br.com.nimblebaas.servicos.ClientAutorizador;
 import br.com.nimblebaas.usuario.Usuario;
 import br.com.nimblebaas.usuario.UsuarioRepository;
 import org.springframework.data.domain.Page;
@@ -21,12 +19,15 @@ public class CobrancaService {
 
     private final CobrancaRepository cobrancaRepository;
     private final UsuarioRepository usuarioRepository;
+    private final ClientAutorizador clientAutorizador;
 
-    public CobrancaService(CobrancaRepository cobrancaRepository, UsuarioRepository usuarioRepository) {
+    public CobrancaService(CobrancaRepository cobrancaRepository, UsuarioRepository usuarioRepository, ClientAutorizador clientAutorizador) {
         this.cobrancaRepository = cobrancaRepository;
         this.usuarioRepository = usuarioRepository;
+        this.clientAutorizador = clientAutorizador;
     }
 
+    @Transactional
     public CriarCobrancaResponseDTO criarCobranca(CriarCobrancaRequestDTO cobranca){
         Cobranca cobrancaModel = configuraCobranca(new Cobranca(cobranca));
         return new CriarCobrancaResponseDTO(cobrancaRepository.save(cobrancaModel));
@@ -50,6 +51,17 @@ public class CobrancaService {
         cobrancaRepository.save(cobranca);
         var mensagem = "Transação realizada com sucesso. Cobranda paga!";
         return new TransferenciaResponseDTO(cobranca, credor, devedor, mensagem);
+    }
+
+    public String pagarCobrancaComCartaoDeCredito(Long idCobranca, CartaoDeCreditoDTO cartao){
+        var response = clientAutorizador.solicitarAutorizacao();
+        if (!response.getData().isAuthorized()) {
+            throw new RegraDeNegocioException("Transação não autorizada");
+        }
+        var cobranca = cobrancaRepository.findById(idCobranca).orElseThrow();
+        cobranca.setStatusCobranca(StatusCobranca.PAGA);
+        cobrancaRepository.save(cobranca);
+        return "Pagamento realizado com sucesso.";
     }
 
     private Cobranca configuraCobranca(Cobranca cobranca){
