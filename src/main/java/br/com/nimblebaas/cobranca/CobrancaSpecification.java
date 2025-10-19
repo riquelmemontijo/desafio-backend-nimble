@@ -9,8 +9,10 @@ public class CobrancaSpecification {
         return (root, query, cb) -> {
             if(tipoRelacaoCobranca == TipoRelacaoCobranca.ORIGINADOR) {
                 return cb.equal(root.get("originador"), usuario);
+            } else if (tipoRelacaoCobranca == TipoRelacaoCobranca.DESTINATARIO) {
+                return cb.equal(root.get("destinatario"), usuario);
             } else {
-                return cb.equal(root.get("originador"), usuario);
+                return null;
             }
         };
     }

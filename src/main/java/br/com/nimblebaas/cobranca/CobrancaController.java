@@ -3,6 +3,7 @@ package br.com.nimblebaas.cobranca;
 import br.com.nimblebaas.cobranca.dto.CriarCobrancaRequestDTO;
 import br.com.nimblebaas.cobranca.dto.CriarCobrancaResponseDTO;
 import br.com.nimblebaas.cobranca.dto.CobrancaResponseDTO;
+import br.com.nimblebaas.cobranca.dto.TransferenciaResponseDTO;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -30,6 +31,11 @@ public class CobrancaController {
                                                                     @RequestParam(required = false) StatusCobranca status,
                                                                     @RequestParam(required = false) TipoRelacaoCobranca tipoRelacaoCobranca){
         return ResponseEntity.ok(cobrancaService.obterCobrancas(pageable, status, tipoRelacaoCobranca));
+    }
+
+    @PostMapping("/pagar-com-saldo")
+    public ResponseEntity<TransferenciaResponseDTO> pagarCobrancaComSaldo(@RequestParam Long idCobranca){
+        return ResponseEntity.ok(cobrancaService.pagarCobrancaComSaldo(idCobranca));
     }
 
 }

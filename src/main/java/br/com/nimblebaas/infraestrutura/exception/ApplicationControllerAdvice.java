@@ -36,6 +36,15 @@ public class ApplicationControllerAdvice {
         return problemDetail;
     }
 
+    @ExceptionHandler(RegraDeNegocioException.class)
+    @ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)
+    public ProblemDetail handleNotFound(RegraDeNegocioException ex) {
+        var problemDetail = ProblemDetail.forStatus(HttpStatus.UNPROCESSABLE_ENTITY);
+        problemDetail.setTitle("A requisição não pode ser processada");
+        problemDetail.setDetail(ex.getMessage());
+        return problemDetail;
+    }
+
     private record ParametroInvalido(String nome, String motivo){}
 
 }

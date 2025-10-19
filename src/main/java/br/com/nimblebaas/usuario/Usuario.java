@@ -4,6 +4,7 @@ import br.com.nimblebaas.role.Role;
 import br.com.nimblebaas.usuario.dto.UsuarioCriacaoRequest;
 import jakarta.persistence.*;
 
+import java.math.BigDecimal;
 import java.util.Set;
 
 @Entity(name = "Usuario")
@@ -20,11 +21,21 @@ public class Usuario {
     private String nome;
     @Column(nullable = false, length = 80)
     private String senha;
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "usuario_role",
                joinColumns = @JoinColumn(name = "usuario_id"),
                inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles;
+    @Column(nullable = false, precision = 20, scale = 2)
+    @Access(AccessType.FIELD)
+    private BigDecimal saldo;
+
+    @PrePersist
+    private void inicializarValoresPadroes() {
+        if (this.saldo == null) {
+            this.saldo = BigDecimal.ZERO;
+        }
+    }
 
     public Usuario() {
     }
@@ -43,6 +54,7 @@ public class Usuario {
         this.nome = nome;
         this.senha = senha;
         this.roles = roles;
+        this.saldo = BigDecimal.ZERO;
     }
 
     public Long getId() {
@@ -91,5 +103,20 @@ public class Usuario {
 
     public void setRoles(Set<Role> roles) {
         this.roles = roles;
+    }
+
+    public BigDecimal getSaldo() {
+        return saldo;
+    }
+
+    public void creditarSaldo(BigDecimal valor) {
+        this.saldo = this.saldo.add(valor);
+    }
+
+    public void debitarSaldo(BigDecimal valor) {
+        if(this.saldo.compareTo(valor) < 0) {
+            throw new RuntimeException("Saldo insuficiente");
+        }
+        this.saldo = this.saldo.subtract(valor);
     }
 }
