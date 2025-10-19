@@ -39,6 +39,7 @@ public class ConfiguracaoDeSeguranca {
 
         http.authorizeHttpRequests(auth -> auth
                         .requestMatchers("/usuarios/sign-in").permitAll()
+                        .requestMatchers("/cobrancas").permitAll()
                         .requestMatchers("/usuarios/sign-up").permitAll()
                         .anyRequest().authenticated())
             .csrf(AbstractHttpConfigurer::disable)

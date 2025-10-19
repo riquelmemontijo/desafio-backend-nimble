@@ -29,7 +29,7 @@ public class ApplicationControllerAdvice {
 
     @ExceptionHandler(BadCredentialsException.class)
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
-    public ProblemDetail handleNotFound(BadCredentialsException ex) {
+    public ProblemDetail handleBadCredentialsException(BadCredentialsException ex) {
         var problemDetail = ProblemDetail.forStatus(HttpStatus.UNAUTHORIZED);
         problemDetail.setTitle("Unauthorized");
         problemDetail.setDetail("Credenciais inválidas.");
@@ -38,8 +38,17 @@ public class ApplicationControllerAdvice {
 
     @ExceptionHandler(RegraDeNegocioException.class)
     @ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)
-    public ProblemDetail handleNotFound(RegraDeNegocioException ex) {
+    public ProblemDetail handleRegraDeNegocioException(RegraDeNegocioException ex) {
         var problemDetail = ProblemDetail.forStatus(HttpStatus.UNPROCESSABLE_ENTITY);
+        problemDetail.setTitle("A requisição não pode ser processada");
+        problemDetail.setDetail(ex.getMessage());
+        return problemDetail;
+    }
+
+    @ExceptionHandler(ClientAutorizadorException.class)
+    @ResponseStatus(HttpStatus.SERVICE_UNAVAILABLE)
+    public ProblemDetail handleClientAutorizadorException(ClientAutorizadorException ex) {
+        var problemDetail = ProblemDetail.forStatus(HttpStatus.SERVICE_UNAVAILABLE);
         problemDetail.setTitle("A requisição não pode ser processada");
         problemDetail.setDetail(ex.getMessage());
         return problemDetail;
