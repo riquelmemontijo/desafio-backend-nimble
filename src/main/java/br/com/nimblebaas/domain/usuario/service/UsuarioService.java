@@ -1,14 +1,13 @@
 package br.com.nimblebaas.domain.usuario.service;
 
-import br.com.nimblebaas.domain.usuario.repository.UsuarioRepository;
+import br.com.nimblebaas.domain.role.model.Role;
+import br.com.nimblebaas.domain.role.repository.RoleRepository;
 import br.com.nimblebaas.domain.usuario.model.Usuario;
 import br.com.nimblebaas.domain.usuario.model.dto.*;
+import br.com.nimblebaas.domain.usuario.repository.UsuarioRepository;
 import br.com.nimblebaas.infraestrutura.exception.RegraDeNegocioException;
-import br.com.nimblebaas.domain.role.role.Role;
-import br.com.nimblebaas.domain.role.repository.RoleRepository;
 import br.com.nimblebaas.servicos.autorizador.AutorizadorResponse;
 import br.com.nimblebaas.servicos.autorizador.ClientAutorizador;
-import br.com.nimblebaas.usuario.dto.*;
 import br.com.nimblebaas.util.usuario.UsuarioUtils;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.crypto.password.PasswordEncoder;

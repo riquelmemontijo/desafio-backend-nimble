@@ -1,6 +1,6 @@
 package br.com.nimblebaas.infraestrutura.seguranca;
 
-import br.com.nimblebaas.domain.role.role.Role;
+import br.com.nimblebaas.domain.role.model.Role;
 import br.com.nimblebaas.domain.role.repository.RoleRepository;
 import br.com.nimblebaas.domain.usuario.model.Usuario;
 import br.com.nimblebaas.domain.usuario.repository.UsuarioRepository;

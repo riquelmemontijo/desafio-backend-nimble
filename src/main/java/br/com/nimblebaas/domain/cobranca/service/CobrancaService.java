@@ -3,7 +3,7 @@ package br.com.nimblebaas.domain.cobranca.service;
 import br.com.nimblebaas.domain.cobranca.repository.CobrancaRepository;
 import br.com.nimblebaas.domain.cobranca.repository.CobrancaSpecification;
 import br.com.nimblebaas.domain.cobranca.model.cancelamentostrategy.SeletorDeEstrategiaDeCancelamento;
-import br.com.nimblebaas.cobranca.dto.*;
+import br.com.nimblebaas.domain.cobranca.model.dto.*;
 import br.com.nimblebaas.domain.cobranca.model.Cobranca;
 import br.com.nimblebaas.domain.cobranca.model.FormaDePagamento;
 import br.com.nimblebaas.domain.cobranca.model.StatusCobranca;

@@ -1,6 +1,6 @@
 package br.com.nimblebaas.domain.cobranca.controller;
 
-import br.com.nimblebaas.cobranca.dto.*;
+import br.com.nimblebaas.domain.cobranca.model.dto.*;
 import br.com.nimblebaas.domain.cobranca.service.CobrancaService;
 import br.com.nimblebaas.domain.cobranca.model.StatusCobranca;
 import br.com.nimblebaas.domain.cobranca.model.TipoRelacaoCobranca;

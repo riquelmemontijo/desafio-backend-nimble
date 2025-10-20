@@ -2,7 +2,7 @@ package br.com.nimblebaas.domain.usuario.controller;
 
 import br.com.nimblebaas.domain.usuario.model.dto.*;
 import br.com.nimblebaas.domain.usuario.service.UsuarioService;
-import br.com.nimblebaas.usuario.dto.*;
+import br.com.nimblebaas.domain.usuario.model.dto.*;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
