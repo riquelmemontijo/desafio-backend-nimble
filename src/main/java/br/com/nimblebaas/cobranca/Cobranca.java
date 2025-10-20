@@ -24,6 +24,9 @@ public class Cobranca {
     @Column(nullable = false, length = 10)
     private StatusCobranca statusCobranca;
     private String descricao;
+    @Enumerated(EnumType.STRING)
+    @Column(length = 30)
+    private FormaDePagamento formaDePagamento;
 
     public Cobranca() {
     }
@@ -88,5 +91,13 @@ public class Cobranca {
 
     public void setDescricao(String descricao) {
         this.descricao = descricao;
+    }
+
+    public FormaDePagamento getFormaDePagamento() {
+        return formaDePagamento;
+    }
+
+    public void setFormaDePagamento(FormaDePagamento formaDePagamento) {
+        this.formaDePagamento = formaDePagamento;
     }
 }
