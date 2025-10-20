@@ -1,13 +1,8 @@
 package br.com.nimblebaas.usuario;
 
-import br.com.nimblebaas.role.RoleRepository;
-import br.com.nimblebaas.usuario.dto.UsuarioCriacaoRequest;
-import br.com.nimblebaas.usuario.dto.UsuarioCriacaoResponse;
-import br.com.nimblebaas.usuario.dto.UsuarioLoginRequest;
-import br.com.nimblebaas.usuario.dto.UsuarioLoginResponse;
+import br.com.nimblebaas.usuario.dto.*;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -31,6 +26,11 @@ public class UsuarioController {
     @PostMapping("/sign-in")
     public ResponseEntity<UsuarioLoginResponse> signIn(@RequestBody UsuarioLoginRequest usuarioLoginRequest) {
         return ResponseEntity.ok(usuarioService.signIn(usuarioLoginRequest));
+    }
+
+    @PostMapping("/fazer-deposito")
+    public ResponseEntity<DepositoResponseDTO> fazerDeposito(@RequestBody @Valid DepositoRequestDTO deposito){
+        return ResponseEntity.ok(usuarioService.fazerDeposito(deposito));
     }
 
 }
