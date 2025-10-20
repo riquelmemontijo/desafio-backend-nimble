@@ -40,4 +40,9 @@ public class CobrancaController {
         return ResponseEntity.ok(cobrancaService.pagarCobrancaComCartaoDeCredito(idCobranca, cartao));
     }
 
+    @PutMapping
+    public ResponseEntity<CancelamentoCobrancaDTO> cancelarCobranca(@RequestParam Long idCobranca){
+        return ResponseEntity.ok(cobrancaService.cancelarCobranca(idCobranca));
+    }
+
 }

@@ -1,5 +1,6 @@
 package br.com.nimblebaas.cobranca;
 
+import br.com.nimblebaas.cobranca.cancelamentostrategy.SeletorDeEstrategiaDeCancelamento;
 import br.com.nimblebaas.cobranca.dto.*;
 import br.com.nimblebaas.cobranca.validacao.criacao.ValidacaoCriacaoCobranca;
 import br.com.nimblebaas.cobranca.validacao.pagamento.cartao.ValidacaoPagamentoCobrancaCartao;
@@ -30,6 +31,7 @@ public class CobrancaService {
     private final List<ValidacaoPagamentoCobrancaSaldo> validacaoPagamentoCobrancaSaldo;
     private final List<ValidacaoPagamentoCobrancaCartao> validacaoPagamentoCobrancaCartao;
     private final UsuarioUtils usuarioUtils;
+    private final SeletorDeEstrategiaDeCancelamento seletorDeEstrategiaDeCancelamento;
 
     public CobrancaService(CobrancaRepository cobrancaRepository,
                            UsuarioRepository usuarioRepository,
@@ -38,7 +40,7 @@ public class CobrancaService {
                            List<ValidacaoPagamentoCobranca> validacaoPagamentoCobranca,
                            List<ValidacaoPagamentoCobrancaSaldo> validacaoPagamentoCobrancaSaldo,
                            List<ValidacaoPagamentoCobrancaCartao> validacaoPagamentoCobrancaCartao,
-                           UsuarioUtils usuarioUtils) {
+                           UsuarioUtils usuarioUtils, SeletorDeEstrategiaDeCancelamento seletorDeEstrategiaDeCancelamento) {
         this.cobrancaRepository = cobrancaRepository;
         this.usuarioRepository = usuarioRepository;
         this.clientAutorizador = clientAutorizador;
@@ -47,6 +49,7 @@ public class CobrancaService {
         this.validacaoPagamentoCobrancaSaldo = validacaoPagamentoCobrancaSaldo;
         this.validacaoPagamentoCobrancaCartao = validacaoPagamentoCobrancaCartao;
         this.usuarioUtils = usuarioUtils;
+        this.seletorDeEstrategiaDeCancelamento = seletorDeEstrategiaDeCancelamento;
     }
 
     @Transactional
@@ -66,7 +69,7 @@ public class CobrancaService {
     @Transactional
     public TransferenciaResponseDTO pagarCobrancaComSaldo(Long idCobranca){
         var cobranca = cobrancaRepository.findById(idCobranca)
-                .orElseThrow(() -> new RegistroNaoEncontradoException("Cobranca não foi localizada no sistema"));
+                                         .orElseThrow(() -> new RegistroNaoEncontradoException("Cobranca não foi localizada no sistema"));
         validacaoPagamentoCobranca.forEach(validacao -> validacao.validar(cobranca));
         validacaoPagamentoCobrancaSaldo.forEach(validacao -> validacao.validar(cobranca));
 
@@ -74,6 +77,7 @@ public class CobrancaService {
         realizarTransferencia(credor, cobranca.getValor());
 
         cobranca.setStatusCobranca(StatusCobranca.PAGA);
+        cobranca.setFormaDePagamento(FormaDePagamento.SALDO);
         cobrancaRepository.save(cobranca);
 
         var mensagem = "Transação realizada com sucesso. Cobrança paga!";
@@ -91,9 +95,34 @@ public class CobrancaService {
         validacaoPagamentoCobranca.forEach(validacao -> validacao.validar(cobranca));
         validacaoPagamentoCobrancaCartao.forEach(validacao -> validacao.validar(cartao));
         cobranca.setStatusCobranca(StatusCobranca.PAGA);
+        cobranca.setFormaDePagamento(FormaDePagamento.CARTAO_DE_CREDITO);
         cobrancaRepository.save(cobranca);
         var mensagem = "Transação realizada com sucesso. Cobrança paga!";
         return new TransferenciaResponseDTO(cobranca, cobranca.getOriginador(), cobranca.getDestinatario(), mensagem);
+    }
+
+    @Transactional
+    public CancelamentoCobrancaDTO cancelarCobranca(Long idCobranca){
+        var cobranca = cobrancaRepository.findById(idCobranca)
+                .orElseThrow(() -> new RegistroNaoEncontradoException("Cobranca não foi localizada no sistema"));
+
+        seletorDeEstrategiaDeCancelamento.executarEstrategia(cobranca);
+
+        var mensagem = "Cancelamento realizado com sucesso.";
+        return new CancelamentoCobrancaDTO(cobranca, mensagem);
+
+//        if(cobranca.getStatusCobranca() == StatusCobranca.CANCELADA){
+//            throw new RegraDeNegocioException("Cobranca já foi cancelada");
+//        } else if(cobranca.getStatusCobranca() == StatusCobranca.PENDENTE){
+//            cobranca.setStatusCobranca(StatusCobranca.CANCELADA);
+//            cobrancaRepository.save(cobranca);
+//        } else if(cobranca.getStatusCobranca() == StatusCobranca.PAGA && cobranca.getFormaDePagamento() == FormaDePagamento.SALDO){
+//            realizarEstorno(cobranca);
+//        } else if(cobranca.getStatusCobranca() == StatusCobranca.PAGA && cobranca.getFormaDePagamento() == FormaDePagamento.CARTAO_DE_CREDITO){
+//            if(!clientAutorizador.solicitarAutorizacao().getData().isAuthorized()){
+//                throw new RegraDeNegocioException("Cancelamento não autorizado");
+//            }
+//        }
     }
 
     private Cobranca configurarCobrancaParaCadastro(Cobranca cobranca){
@@ -107,6 +136,15 @@ public class CobrancaService {
         var devedor = usuarioUtils.getUsuarioLogado();
         devedor.debitarSaldo(valor);
         credor.creditarSaldo(valor);
+        usuarioRepository.save(devedor);
+        usuarioRepository.save(credor);
+    }
+
+    private void realizarEstorno(Cobranca cobranca){
+        var devedor = cobranca.getDestinatario();
+        var credor = cobranca.getOriginador();
+        devedor.creditarSaldo(cobranca.getValor());
+        credor.debitarSaldo(cobranca.getValor());
         usuarioRepository.save(devedor);
         usuarioRepository.save(credor);
     }
