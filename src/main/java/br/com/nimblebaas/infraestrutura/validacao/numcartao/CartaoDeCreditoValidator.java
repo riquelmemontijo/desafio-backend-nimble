@@ -1,6 +1,5 @@
 package br.com.nimblebaas.infraestrutura.validacao.numcartao;
 
-import br.com.nimblebaas.cobranca.dto.CartaoDeCreditoDTO;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 

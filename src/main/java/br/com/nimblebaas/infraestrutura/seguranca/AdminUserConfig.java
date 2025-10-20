@@ -1,9 +1,9 @@
 package br.com.nimblebaas.infraestrutura.seguranca;
 
-import br.com.nimblebaas.role.Role;
-import br.com.nimblebaas.role.RoleRepository;
-import br.com.nimblebaas.usuario.Usuario;
-import br.com.nimblebaas.usuario.UsuarioRepository;
+import br.com.nimblebaas.domain.role.role.Role;
+import br.com.nimblebaas.domain.role.repository.RoleRepository;
+import br.com.nimblebaas.domain.usuario.model.Usuario;
+import br.com.nimblebaas.domain.usuario.repository.UsuarioRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.crypto.password.PasswordEncoder;
