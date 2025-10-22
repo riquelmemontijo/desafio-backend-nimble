@@ -49,7 +49,7 @@ public class PagarCobrancaService {
         validacaoPagamentoCobrancaSaldo.forEach(validacao -> validacao.validar(cobranca));
 
         var credor = usuarioUtils.buscarUsuarioPorCpf(cobranca.getOriginador().getCpf());
-        realizarTransferencia(credor, cobranca.getValor());
+        realizarTransferenciaDeSaldo(credor, cobranca.getValor());
 
         cobranca.setStatusCobranca(StatusCobranca.PAGA);
         cobranca.setFormaDePagamento(FormaDePagamento.SALDO);
@@ -69,6 +69,7 @@ public class PagarCobrancaService {
                 .orElseThrow(() -> new RegistroNaoEncontradoException("Cobranca não foi localizada no sistema"));
         validacaoPagamentoCobranca.forEach(validacao -> validacao.validar(cobranca));
         validacaoPagamentoCobrancaCartao.forEach(validacao -> validacao.validar(cartao));
+        realizarTransferenciaComCartao(cobranca.getOriginador(), cobranca.getValor());
         cobranca.setStatusCobranca(StatusCobranca.PAGA);
         cobranca.setFormaDePagamento(FormaDePagamento.CARTAO_DE_CREDITO);
         cobrancaRepository.save(cobranca);
@@ -76,11 +77,16 @@ public class PagarCobrancaService {
         return new TransferenciaResponseDTO(cobranca, cobranca.getOriginador(), cobranca.getDestinatario(), mensagem);
     }
 
-    private void realizarTransferencia(Usuario credor, BigDecimal valor) {
+    private void realizarTransferenciaDeSaldo(Usuario credor, BigDecimal valor) {
         var devedor = usuarioUtils.getUsuarioLogado();
         devedor.debitarSaldo(valor);
         credor.creditarSaldo(valor);
         usuarioRepository.save(devedor);
+        usuarioRepository.save(credor);
+    }
+
+    private void realizarTransferenciaComCartao(Usuario credor, BigDecimal valor){
+        credor.creditarSaldo(valor);
         usuarioRepository.save(credor);
     }
 
