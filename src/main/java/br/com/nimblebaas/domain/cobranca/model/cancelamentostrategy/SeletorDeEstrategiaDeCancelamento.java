@@ -27,10 +27,6 @@ public class SeletorDeEstrategiaDeCancelamento {
         this.cobrancaRepository = cobrancaRepository;
         this.usuarioRepository = usuarioRepository;
         this.clientAutorizador = clientAutorizador;
-        estrategias.put(
-                cobranca -> cobranca.getStatusCobranca() == StatusCobranca.CANCELADA,
-                this::cobrancaCancelada
-        );
 
         estrategias.put(
                 cobranca -> cobranca.getStatusCobranca() == StatusCobranca.PENDENTE,
@@ -56,10 +52,6 @@ public class SeletorDeEstrategiaDeCancelamento {
                 .filter(estrategia -> estrategia.getKey().test(cobranca))
                 .findFirst()
                 .ifPresent(estrategia -> estrategia.getValue().accept(cobranca));
-    }
-
-    private void cobrancaCancelada(Cobranca cobranca) {
-        throw new RegraDeNegocioException("Cobranca já foi cancelada");
     }
 
     private void cobrancaPendente(Cobranca cobranca) {
