@@ -38,6 +38,7 @@ public class Usuario {
     }
 
     public Usuario() {
+        this.saldo = BigDecimal.ZERO;
     }
 
     public Usuario(UsuarioCriacaoRequest usuario) {
