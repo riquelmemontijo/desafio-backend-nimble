@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
 @RestControllerAdvice
 public class ApplicationControllerAdvice {
@@ -76,6 +77,14 @@ public class ApplicationControllerAdvice {
         problemDetail.setTitle("A requisição não pode ser processada");
         problemDetail.setDetail("Não foi possível processar a requisição. Verifique os dados informados");
 
+        return problemDetail;
+    }
+
+    @ExceptionHandler(MethodArgumentTypeMismatchException.class)
+    public ProblemDetail handleMethodArgumentTypeMismatch(MethodArgumentTypeMismatchException ex, WebRequest request) {
+        var problemDetail = ProblemDetail.forStatus(HttpStatus.BAD_REQUEST);
+        problemDetail.setTitle("A requisição não pode ser processada");
+        problemDetail.setDetail("Verifique os parâmetros enviados na requisição");
         return problemDetail;
     }
 
