@@ -49,7 +49,7 @@ public class CobrancaController {
         return ResponseEntity.ok(pagarCobrancaService.pagarCobrancaComCartaoDeCredito(idCobranca, cartao));
     }
 
-    @PutMapping
+    @PutMapping("/cancelar")
     public ResponseEntity<CancelamentoCobrancaResponseDTO> cancelarCobranca(@RequestParam Long idCobranca){
         return ResponseEntity.ok(cancelarCobrancaService.cancelarCobranca(idCobranca));
     }
