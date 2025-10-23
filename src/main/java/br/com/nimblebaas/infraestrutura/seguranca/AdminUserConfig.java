@@ -35,7 +35,7 @@ public class AdminUserConfig implements CommandLineRunner {
                     System.out.println("Usuario já existe");
                 },
                 () -> {
-                    var usuario = new Usuario(null, "admin@admin.com", "11122233344", "Admnistrator", passwordEncoder.encode("senha"), Set.of(roleAdmin));
+                    var usuario = new Usuario(null, "admin@admin.com", "61299652069", "Admnistrator", passwordEncoder.encode("senha"), Set.of(roleAdmin));
                     usuarioRepository.save(usuario);
                 });
     }
