@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 public class ValidarSeDevedorTemSaldoSucifiente implements ValidacaoPagamentoCobrancaSaldo {
     @Override
     public void validar(Cobranca cobranca) {
-        if(cobranca.getValor().compareTo(cobranca.getOriginador().getSaldo()) > 0) {
+        if(cobranca.getValor().compareTo(cobranca.getDestinatario().getSaldo()) > 0) {
             throw new RegraDeNegocioException("Saldo insuficiente");
         }
     }
