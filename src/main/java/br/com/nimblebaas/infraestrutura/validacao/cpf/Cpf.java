@@ -10,7 +10,7 @@ import java.lang.annotation.*;
 @Target({ElementType.FIELD, ElementType.PARAMETER})
 @Retention(RetentionPolicy.RUNTIME)
 public @interface Cpf {
-    String message() default "O CPF informádo é inválido";
+    String message() default "O CPF informado é inválido";
 
     Class<?>[] groups() default {};
 
