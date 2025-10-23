@@ -51,6 +51,7 @@ public class UsuarioService {
         return new UsuarioLoginResponse(tokenJwt, Duration.between(Instant.now(), claims.getExpiresAt()).toHours());
     }
 
+    @Transactional
     public UsuarioCriacaoResponse signUp(UsuarioCriacaoRequest usuarioCriacaoRequest){
         Usuario usuarioModel = configurarUsuarioParaCadastro(new Usuario(usuarioCriacaoRequest));
         usuarioRepository.save(usuarioModel);
