@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.net.URI;
+
 @RestController
 @RequestMapping("/usuarios")
 public class UsuarioController {
@@ -33,7 +35,9 @@ public class UsuarioController {
             @ApiResponse(responseCode = "500", description = "Erro interno do servidor")
     })
     public ResponseEntity<UsuarioCriacaoResponseDTO> signUp(@RequestBody @Valid UsuarioCriacaoRequestDTO usuarioCriacaoRequestDTO){
-        return ResponseEntity.ok(usuarioService.signUp(usuarioCriacaoRequestDTO));
+        var usuario = usuarioService.signUp(usuarioCriacaoRequestDTO);
+        URI location = URI.create("/usuarios/" + usuario.id());
+        return ResponseEntity.created(location).body(usuario);
     }
 
     @PostMapping("/sign-in")

@@ -14,6 +14,8 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.net.URI;
+
 @RestController
 @RequestMapping("/cobrancas")
 public class CobrancaController {
@@ -41,7 +43,9 @@ public class CobrancaController {
             @ApiResponse(responseCode = "500", description = "Erro interno do servidor")
     })
     public ResponseEntity<CriarCobrancaResponseDTO> criarCobranca(@RequestBody @Valid CriarCobrancaRequestDTO cobranca){
-        return ResponseEntity.ok(criarCobrancaService.criarCobranca(cobranca));
+        var cobrancaCriada = criarCobrancaService.criarCobranca(cobranca);
+        URI location = URI.create("/cobrancas/" + cobrancaCriada.id());
+        return ResponseEntity.created(location).body(cobrancaCriada);
     }
 
 
