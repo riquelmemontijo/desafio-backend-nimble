@@ -15,10 +15,11 @@ public class CobrancaSpecification {
             } else if (tipoRelacaoCobranca == TipoRelacaoCobranca.DESTINATARIO) {
                 return cb.equal(root.get("destinatario"), usuario);
             } else {
-                return null;
+                return cb.or(cb.equal(root.get("originador"), usuario), cb.equal(root.get("destinatario"), usuario));
             }
         };
     }
+
 
     public static Specification<Cobranca> porStatusDaCobranca(StatusCobranca statusCobranca) {
         return (root, query, cb) ->
