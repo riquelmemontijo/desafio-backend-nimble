@@ -2,6 +2,9 @@ package br.com.nimblebaas.domain.usuario.controller;
 
 import br.com.nimblebaas.domain.usuario.model.dto.*;
 import br.com.nimblebaas.domain.usuario.service.UsuarioService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -20,16 +23,43 @@ public class UsuarioController {
     }
 
     @PostMapping("/sign-up")
+    @Operation(summary = "Cadastrar usuario", description = "Cadastra um novo usuário no sistema")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Usuário cadastrado com sucesso"),
+            @ApiResponse(responseCode = "400", description = "A requisição não pode ser processada"),
+            @ApiResponse(responseCode = "401", description = "Não autorizado"),
+            @ApiResponse(responseCode = "403", description = "Acesso negado"),
+            @ApiResponse(responseCode = "422", description = "Dados informados erroneamente no body ou no recurso da URL"),
+            @ApiResponse(responseCode = "500", description = "Erro interno do servidor")
+    })
     public ResponseEntity<UsuarioCriacaoResponseDTO> signUp(@RequestBody @Valid UsuarioCriacaoRequestDTO usuarioCriacaoRequestDTO){
         return ResponseEntity.ok(usuarioService.signUp(usuarioCriacaoRequestDTO));
     }
 
     @PostMapping("/sign-in")
+    @Operation(summary = "Login de usuario", description = "Faz login do usuario na api")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Login realizado com sucesso"),
+            @ApiResponse(responseCode = "400", description = "A requisição não pode ser processada"),
+            @ApiResponse(responseCode = "401", description = "Não autorizado"),
+            @ApiResponse(responseCode = "403", description = "Acesso negado"),
+            @ApiResponse(responseCode = "422", description = "Dados informados erroneamente no body ou no recurso da URL"),
+            @ApiResponse(responseCode = "500", description = "Erro interno do servidor")
+    })
     public ResponseEntity<UsuarioLoginResponseDTO> signIn(@RequestBody UsuarioLoginRequestDTO usuarioLoginRequestDTO) {
         return ResponseEntity.ok(usuarioService.signIn(usuarioLoginRequestDTO));
     }
 
     @PostMapping("/fazer-deposito")
+    @Operation(summary = "Depósito monetário", description = "Faz depósito no saldo do usuario")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Login realizado com sucesso"),
+            @ApiResponse(responseCode = "400", description = "A requisição não pode ser processada"),
+            @ApiResponse(responseCode = "401", description = "Não autorizado"),
+            @ApiResponse(responseCode = "403", description = "Acesso negado"),
+            @ApiResponse(responseCode = "422", description = "Dados informados erroneamente no body ou no recurso da URL"),
+            @ApiResponse(responseCode = "500", description = "Erro interno do servidor")
+    })
     public ResponseEntity<DepositoResponseDTO> fazerDeposito(@RequestBody @Valid DepositoRequestDTO deposito){
         return ResponseEntity.ok(usuarioService.fazerDeposito(deposito));
     }
