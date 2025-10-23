@@ -20,6 +20,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
@@ -48,6 +49,9 @@ class CancelarCobrancaServiceTest {
 
     private Cobranca cobranca;
     private final Long cobrancaId = 1L;
+    private Usuario credor;
+    private Usuario devedor;
+
 
     @BeforeEach
     void setUp() {
@@ -70,6 +74,20 @@ class CancelarCobrancaServiceTest {
         cobranca.setFormaDePagamento(FormaDePagamento.SALDO);
         cobranca.setOriginador(originador);
         cobranca.setDestinatario(destinatario);
+        cobranca.setValor(new BigDecimal("100.00"));
+
+        credor = new Usuario();
+        credor.setId(1L);
+        credor.creditarSaldo(new BigDecimal("200.00"));
+
+
+        devedor = new Usuario();
+        devedor.setId(2L);
+        devedor.creditarSaldo(new BigDecimal("100.00"));
+
+        cobranca.setOriginador(credor);
+        cobranca.setDestinatario(devedor);
+
     }
 
     @Test
@@ -141,4 +159,35 @@ class CancelarCobrancaServiceTest {
         verify(seletorDeEstrategiaDeCancelamento).executarEstrategia(cobranca);
 
     }
+
+    @Test
+    @DisplayName("Deve debitar do credor e restituir destinatario quando metodo de pagamento foi saldo")
+    void deveDebitarDoCredorERestituirDestinatarioQuandoMetodoDePagamentoFoiSaldo(){
+        //arrange
+        when(cobrancaRepository.findById(cobrancaId)).thenReturn(Optional.of(cobranca));
+
+        //act
+        cancelarCobrancaService.cancelarCobranca(cobrancaId);
+
+        //assert
+        assertNotEquals(new BigDecimal("100.00"), credor.getSaldo());
+        assertNotEquals(new BigDecimal("200.00"), devedor.getSaldo());
+
+    }
+
+    @Test
+    @DisplayName("Deve debitar do credor quando metodo de pagamento foi cartão")
+    void deveDebitarDoCredorQuandoMetodoDePagamentoFoiCartao(){
+        //arrange
+        cobranca.setFormaDePagamento(FormaDePagamento.CARTAO_DE_CREDITO);
+        when(cobrancaRepository.findById(cobrancaId)).thenReturn(Optional.of(cobranca));
+
+        //act
+        cancelarCobrancaService.cancelarCobranca(cobrancaId);
+
+        //assert
+        assertNotEquals(new BigDecimal("0.00"), credor.getSaldo());
+
+    }
+
 }
