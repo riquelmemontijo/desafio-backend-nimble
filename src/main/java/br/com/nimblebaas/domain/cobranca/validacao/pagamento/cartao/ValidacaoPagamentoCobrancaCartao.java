@@ -1,7 +1,7 @@
 package br.com.nimblebaas.domain.cobranca.validacao.pagamento.cartao;
 
-import br.com.nimblebaas.domain.cobranca.model.dto.CartaoDeCreditoDTO;
+import br.com.nimblebaas.domain.cobranca.model.dto.CartaoDeCreditoRequestDTO;
 
 public interface ValidacaoPagamentoCobrancaCartao {
-    void validar(CartaoDeCreditoDTO cartao);
+    void validar(CartaoDeCreditoRequestDTO cartao);
 }

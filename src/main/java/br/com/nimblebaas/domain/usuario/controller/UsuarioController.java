@@ -2,7 +2,6 @@ package br.com.nimblebaas.domain.usuario.controller;
 
 import br.com.nimblebaas.domain.usuario.model.dto.*;
 import br.com.nimblebaas.domain.usuario.service.UsuarioService;
-import br.com.nimblebaas.domain.usuario.model.dto.*;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -21,13 +20,13 @@ public class UsuarioController {
     }
 
     @PostMapping("/sign-up")
-    public ResponseEntity<UsuarioCriacaoResponse> signUp(@RequestBody @Valid UsuarioCriacaoRequest usuarioCriacaoRequest){
-        return ResponseEntity.ok(usuarioService.signUp(usuarioCriacaoRequest));
+    public ResponseEntity<UsuarioCriacaoResponseDTO> signUp(@RequestBody @Valid UsuarioCriacaoRequestDTO usuarioCriacaoRequestDTO){
+        return ResponseEntity.ok(usuarioService.signUp(usuarioCriacaoRequestDTO));
     }
 
     @PostMapping("/sign-in")
-    public ResponseEntity<UsuarioLoginResponse> signIn(@RequestBody UsuarioLoginRequest usuarioLoginRequest) {
-        return ResponseEntity.ok(usuarioService.signIn(usuarioLoginRequest));
+    public ResponseEntity<UsuarioLoginResponseDTO> signIn(@RequestBody UsuarioLoginRequestDTO usuarioLoginRequestDTO) {
+        return ResponseEntity.ok(usuarioService.signIn(usuarioLoginRequestDTO));
     }
 
     @PostMapping("/fazer-deposito")

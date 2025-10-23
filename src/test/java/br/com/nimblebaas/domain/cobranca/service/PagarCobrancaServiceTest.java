@@ -3,7 +3,7 @@ package br.com.nimblebaas.domain.cobranca.service;
 import br.com.nimblebaas.domain.cobranca.model.Cobranca;
 import br.com.nimblebaas.domain.cobranca.model.FormaDePagamento;
 import br.com.nimblebaas.domain.cobranca.model.StatusCobranca;
-import br.com.nimblebaas.domain.cobranca.model.dto.CartaoDeCreditoDTO;
+import br.com.nimblebaas.domain.cobranca.model.dto.CartaoDeCreditoRequestDTO;
 import br.com.nimblebaas.domain.cobranca.model.dto.TransferenciaResponseDTO;
 import br.com.nimblebaas.domain.cobranca.repository.CobrancaRepository;
 import br.com.nimblebaas.domain.cobranca.validacao.pagamento.cartao.ValidacaoPagamentoCobrancaCartao;
@@ -60,7 +60,7 @@ class PagarCobrancaServiceTest {
     private ArgumentCaptor<Usuario> usuarioCaptor;
 
     private Long idCobranca;
-    private CartaoDeCreditoDTO cartaoDeCreditoDTO;
+    private CartaoDeCreditoRequestDTO cartaoDeCreditoRequestDTO;
     private Usuario originador;
     private Usuario destinatario;
     private Cobranca cobranca;
@@ -98,7 +98,7 @@ class PagarCobrancaServiceTest {
         cobranca.setDestinatario(destinatario);
         cobranca.setValor(new BigDecimal("100.00"));
 
-        cartaoDeCreditoDTO = new CartaoDeCreditoDTO("12345678910121416","03/29","123");
+        cartaoDeCreditoRequestDTO = new CartaoDeCreditoRequestDTO("12345678910121416","03/29","123");
 
         autorizacaoSuccessResponse = new AutorizadorResponse("success", new AutorizadorResponse.Data(true));
         autorizacaoFailResponse = new AutorizadorResponse("fail", new AutorizadorResponse.Data(false));
@@ -188,11 +188,11 @@ class PagarCobrancaServiceTest {
 
         // act e assert
         assertThrows(RegistroNaoEncontradoException.class,
-                () -> service.pagarCobrancaComCartaoDeCredito(idCobranca, cartaoDeCreditoDTO));
+                () -> service.pagarCobrancaComCartaoDeCredito(idCobranca, cartaoDeCreditoRequestDTO));
 
         verify(cobrancaRepository).findById(idCobranca);
         verify(validacaoPagamentoCobranca, never()).validar(cobranca);
-        verify(validacaoPagamentoCobrancaCartao, never()).validar(cartaoDeCreditoDTO);
+        verify(validacaoPagamentoCobrancaCartao, never()).validar(cartaoDeCreditoRequestDTO);
         verify(usuarioUtils, never()).buscarUsuarioPorCpf(anyString());
         verifyNoMoreInteractions(usuarioRepository, usuarioUtils);
     }
@@ -205,12 +205,12 @@ class PagarCobrancaServiceTest {
 
         // act e assert
         assertThrows(RegraDeNegocioException.class,
-                () -> service.pagarCobrancaComCartaoDeCredito(idCobranca, cartaoDeCreditoDTO));
+                () -> service.pagarCobrancaComCartaoDeCredito(idCobranca, cartaoDeCreditoRequestDTO));
 
         verify(clientAutorizador).solicitarAutorizacao();
         verify(cobrancaRepository, never()).findById(idCobranca);
         verify(validacaoPagamentoCobranca, never()).validar(cobranca);
-        verify(validacaoPagamentoCobrancaCartao, never()).validar(cartaoDeCreditoDTO);
+        verify(validacaoPagamentoCobrancaCartao, never()).validar(cartaoDeCreditoRequestDTO);
         verify(usuarioUtils, never()).buscarUsuarioPorCpf(anyString());
         verifyNoMoreInteractions(usuarioRepository, usuarioUtils);
     }
@@ -223,7 +223,7 @@ class PagarCobrancaServiceTest {
         when(cobrancaRepository.findById(idCobranca)).thenReturn(Optional.of(cobranca));
 
         // act
-        TransferenciaResponseDTO response = service.pagarCobrancaComCartaoDeCredito(idCobranca, cartaoDeCreditoDTO);
+        TransferenciaResponseDTO response = service.pagarCobrancaComCartaoDeCredito(idCobranca, cartaoDeCreditoRequestDTO);
 
         // assert
         assertNotNull(response);
@@ -252,7 +252,7 @@ class PagarCobrancaServiceTest {
 
         // assert
         assertThrows(RegraDeNegocioException.class,
-                () -> service.pagarCobrancaComCartaoDeCredito(idCobranca, cartaoDeCreditoDTO));
+                () -> service.pagarCobrancaComCartaoDeCredito(idCobranca, cartaoDeCreditoRequestDTO));
 
         verify(cobrancaRepository).findById(idCobranca);
         verify(validacaoPagamentoCobranca).validar(cobranca);

@@ -1,7 +1,7 @@
 package br.com.nimblebaas.domain.cobranca.service;
 
 import br.com.nimblebaas.domain.cobranca.model.cancelamentostrategy.SeletorDeEstrategiaDeCancelamento;
-import br.com.nimblebaas.domain.cobranca.model.dto.CancelamentoCobrancaDTO;
+import br.com.nimblebaas.domain.cobranca.model.dto.CancelamentoCobrancaResponseDTO;
 import br.com.nimblebaas.domain.cobranca.repository.CobrancaRepository;
 import br.com.nimblebaas.domain.cobranca.validacao.cancelamento.ValidacaoCancelamentoCobranca;
 import br.com.nimblebaas.infraestrutura.exception.RegistroNaoEncontradoException;
@@ -24,14 +24,14 @@ public class CancelarCobrancaService {
     }
 
     @Transactional
-    public CancelamentoCobrancaDTO cancelarCobranca(Long idCobranca){
+    public CancelamentoCobrancaResponseDTO cancelarCobranca(Long idCobranca){
         var cobranca = cobrancaRepository.findById(idCobranca)
                 .orElseThrow(() -> new RegistroNaoEncontradoException("Cobranca não foi localizada no sistema"));
         validacoesCancelamentoCobranca.forEach(validacao -> validacao.validar(cobranca));
         seletorDeEstrategiaDeCancelamento.executarEstrategia(cobranca);
 
         var mensagem = "Cancelamento realizado com sucesso.";
-        return new CancelamentoCobrancaDTO(cobranca, mensagem);
+        return new CancelamentoCobrancaResponseDTO(cobranca, mensagem);
     }
 
 }

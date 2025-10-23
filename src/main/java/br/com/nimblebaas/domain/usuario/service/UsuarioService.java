@@ -41,21 +41,21 @@ public class UsuarioService {
     }
 
     @Transactional
-    public UsuarioLoginResponse signIn(UsuarioLoginRequest usuarioLoginRequest){
-        var usuario = usuarioRepository.findByEmailOrCpf(usuarioLoginRequest.login());
-        if(usuario.isEmpty() || !loginEstaCorreto(usuarioLoginRequest, usuario.get())){
+    public UsuarioLoginResponseDTO signIn(UsuarioLoginRequestDTO usuarioLoginRequestDTO){
+        var usuario = usuarioRepository.findByEmailOrCpf(usuarioLoginRequestDTO.login());
+        if(usuario.isEmpty() || !loginEstaCorreto(usuarioLoginRequestDTO, usuario.get())){
             throw new BadCredentialsException("Credenciais inválidas");
         }
         var claims = criarClaims(usuario.get());
         var tokenJwt = gerarToken(claims);
-        return new UsuarioLoginResponse(tokenJwt, Duration.between(Instant.now(), claims.getExpiresAt()).toHours());
+        return new UsuarioLoginResponseDTO(tokenJwt, Duration.between(Instant.now(), claims.getExpiresAt()).toHours());
     }
 
     @Transactional
-    public UsuarioCriacaoResponse signUp(UsuarioCriacaoRequest usuarioCriacaoRequest){
-        Usuario usuarioModel = configurarUsuarioParaCadastro(new Usuario(usuarioCriacaoRequest));
+    public UsuarioCriacaoResponseDTO signUp(UsuarioCriacaoRequestDTO usuarioCriacaoRequestDTO){
+        Usuario usuarioModel = configurarUsuarioParaCadastro(new Usuario(usuarioCriacaoRequestDTO));
         usuarioRepository.save(usuarioModel);
-        return new UsuarioCriacaoResponse(usuarioModel);
+        return new UsuarioCriacaoResponseDTO(usuarioModel);
     }
 
     @Transactional
@@ -70,8 +70,8 @@ public class UsuarioService {
         return new DepositoResponseDTO(depositante.getNome(), depositante.getCpf(), deposito.valor(), mensagem);
     }
 
-    private boolean loginEstaCorreto(UsuarioLoginRequest usuarioLoginRequest, Usuario usuario){
-        var senhaInformada = usuarioLoginRequest.senha();
+    private boolean loginEstaCorreto(UsuarioLoginRequestDTO usuarioLoginRequestDTO, Usuario usuario){
+        var senhaInformada = usuarioLoginRequestDTO.senha();
         var senhaCriptografada = usuario.getSenha();
         return passwordEncoder.matches(senhaInformada, senhaCriptografada);
     }

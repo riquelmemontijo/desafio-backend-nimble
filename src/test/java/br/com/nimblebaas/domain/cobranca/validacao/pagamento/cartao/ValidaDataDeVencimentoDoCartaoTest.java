@@ -1,6 +1,6 @@
 package br.com.nimblebaas.domain.cobranca.validacao.pagamento.cartao;
 
-import br.com.nimblebaas.domain.cobranca.model.dto.CartaoDeCreditoDTO;
+import br.com.nimblebaas.domain.cobranca.model.dto.CartaoDeCreditoRequestDTO;
 import br.com.nimblebaas.infraestrutura.exception.RegraDeNegocioException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -29,7 +29,7 @@ class ValidaDataDeVencimentoDoCartaoTest {
         // arrange
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("MM/yy");
         String mesPassado = YearMonth.now().minusMonths(1).format(dtf);
-        CartaoDeCreditoDTO cartaoExpirado = new CartaoDeCreditoDTO(
+        CartaoDeCreditoRequestDTO cartaoExpirado = new CartaoDeCreditoRequestDTO(
                 "1234567890123456",
                 mesPassado,
                 "123"
@@ -48,7 +48,7 @@ class ValidaDataDeVencimentoDoCartaoTest {
         // arrange
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("MM/yy");
         String proximoMes = YearMonth.now().plusMonths(1).format(dtf);
-        CartaoDeCreditoDTO cartaoValido = new CartaoDeCreditoDTO(
+        CartaoDeCreditoRequestDTO cartaoValido = new CartaoDeCreditoRequestDTO(
                 "1234567890123456",
                 proximoMes,
                 "123"
@@ -64,7 +64,7 @@ class ValidaDataDeVencimentoDoCartaoTest {
         // arrange
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("MM/yy");
         String mesAtual = YearMonth.now().format(dtf);
-        CartaoDeCreditoDTO cartaoValido = new CartaoDeCreditoDTO(
+        CartaoDeCreditoRequestDTO cartaoValido = new CartaoDeCreditoRequestDTO(
                 "1234567890123456",
                 mesAtual,
                 "123"

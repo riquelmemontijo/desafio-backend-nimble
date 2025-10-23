@@ -1,7 +1,7 @@
 package br.com.nimblebaas.domain.usuario.model;
 
 import br.com.nimblebaas.domain.role.model.Role;
-import br.com.nimblebaas.domain.usuario.model.dto.UsuarioCriacaoRequest;
+import br.com.nimblebaas.domain.usuario.model.dto.UsuarioCriacaoRequestDTO;
 import jakarta.persistence.*;
 
 import java.math.BigDecimal;
@@ -41,7 +41,7 @@ public class Usuario {
         this.saldo = BigDecimal.ZERO;
     }
 
-    public Usuario(UsuarioCriacaoRequest usuario) {
+    public Usuario(UsuarioCriacaoRequestDTO usuario) {
         this.email = usuario.email();
         this.cpf = usuario.cpf();
         this.nome = usuario.nome();

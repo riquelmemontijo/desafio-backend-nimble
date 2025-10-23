@@ -4,7 +4,6 @@ import br.com.nimblebaas.domain.cobranca.model.dto.*;
 import br.com.nimblebaas.domain.cobranca.service.*;
 import br.com.nimblebaas.domain.cobranca.model.StatusCobranca;
 import br.com.nimblebaas.domain.cobranca.model.TipoRelacaoCobranca;
-import br.com.nimblebaas.domain.cobranca.model.dto.*;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -46,12 +45,12 @@ public class CobrancaController {
     }
 
     @PostMapping("/pagar-com-cartao")
-    public ResponseEntity<TransferenciaResponseDTO> pagarCobrancaComCartaoDeCredito(@RequestParam Long idCobranca, @RequestBody @Valid CartaoDeCreditoDTO cartao){
+    public ResponseEntity<TransferenciaResponseDTO> pagarCobrancaComCartaoDeCredito(@RequestParam Long idCobranca, @RequestBody @Valid CartaoDeCreditoRequestDTO cartao){
         return ResponseEntity.ok(pagarCobrancaService.pagarCobrancaComCartaoDeCredito(idCobranca, cartao));
     }
 
     @PutMapping
-    public ResponseEntity<CancelamentoCobrancaDTO> cancelarCobranca(@RequestParam Long idCobranca){
+    public ResponseEntity<CancelamentoCobrancaResponseDTO> cancelarCobranca(@RequestParam Long idCobranca){
         return ResponseEntity.ok(cancelarCobrancaService.cancelarCobranca(idCobranca));
     }
 

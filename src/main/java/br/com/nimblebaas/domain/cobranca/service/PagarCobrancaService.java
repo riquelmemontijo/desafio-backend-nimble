@@ -2,7 +2,7 @@ package br.com.nimblebaas.domain.cobranca.service;
 
 import br.com.nimblebaas.domain.cobranca.model.FormaDePagamento;
 import br.com.nimblebaas.domain.cobranca.model.StatusCobranca;
-import br.com.nimblebaas.domain.cobranca.model.dto.CartaoDeCreditoDTO;
+import br.com.nimblebaas.domain.cobranca.model.dto.CartaoDeCreditoRequestDTO;
 import br.com.nimblebaas.domain.cobranca.model.dto.TransferenciaResponseDTO;
 import br.com.nimblebaas.domain.cobranca.repository.CobrancaRepository;
 import br.com.nimblebaas.domain.cobranca.validacao.pagamento.cartao.ValidacaoPagamentoCobrancaCartao;
@@ -60,7 +60,7 @@ public class PagarCobrancaService {
     }
 
     @Transactional
-    public TransferenciaResponseDTO pagarCobrancaComCartaoDeCredito(Long idCobranca, CartaoDeCreditoDTO cartao){
+    public TransferenciaResponseDTO pagarCobrancaComCartaoDeCredito(Long idCobranca, CartaoDeCreditoRequestDTO cartao){
         var response = clientAutorizador.solicitarAutorizacao();
         if (!response.getData().isAuthorized()) {
             throw new RegraDeNegocioException("Transação não autorizada");

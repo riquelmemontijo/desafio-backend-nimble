@@ -4,7 +4,7 @@ import br.com.nimblebaas.domain.cobranca.model.Cobranca;
 import br.com.nimblebaas.domain.cobranca.model.FormaDePagamento;
 import br.com.nimblebaas.domain.cobranca.model.StatusCobranca;
 import br.com.nimblebaas.domain.cobranca.model.cancelamentostrategy.SeletorDeEstrategiaDeCancelamento;
-import br.com.nimblebaas.domain.cobranca.model.dto.CancelamentoCobrancaDTO;
+import br.com.nimblebaas.domain.cobranca.model.dto.CancelamentoCobrancaResponseDTO;
 import br.com.nimblebaas.domain.cobranca.repository.CobrancaRepository;
 import br.com.nimblebaas.domain.cobranca.validacao.cancelamento.ValidacaoCancelamentoCobranca;
 import br.com.nimblebaas.domain.usuario.model.Usuario;
@@ -129,7 +129,7 @@ class CancelarCobrancaServiceTest {
         when(cobrancaRepository.findById(cobrancaId)).thenReturn(Optional.of(cobranca));
 
         //act
-        CancelamentoCobrancaDTO resultado = cancelarCobrancaService.cancelarCobranca(cobrancaId);
+        CancelamentoCobrancaResponseDTO resultado = cancelarCobrancaService.cancelarCobranca(cobrancaId);
 
         //assert
         assertNotNull(resultado);
