@@ -76,6 +76,8 @@ public class SeletorDeEstrategiaDeCancelamento {
         }
         cobranca.setStatusCobranca(StatusCobranca.CANCELADA);
         cobrancaRepository.save(cobranca);
+        cobranca.getOriginador().debitarSaldo(cobranca.getValor());
+        usuarioRepository.save(cobranca.getOriginador());
     }
 
 }
