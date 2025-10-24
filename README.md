@@ -4,7 +4,7 @@
 
 * [Sobre](#-sobre)
 * [Funcionalidades](#-funcionalidades)
-* [Demonstração](#-demonstração)
+* [Documentação](#-documentação)
 * [Como Executar](#-como-executar)
 * [Tecnologias](#-tecnologias)
 * [Uso de Inteligencia Artificial](#-uso-de-inteligencia-artificial)
@@ -30,6 +30,16 @@ Projeto para desafio da backend Nimble. É um simples projeto para transações 
 
 ---
 
+### Documentação
+
+O projeto foi documentado utilizando SpringDoc MVC. Para acessar a página de documentaçãodos endpoints, basta acessar o link abaixo no navegador:
+
+http://localhost:8080/swagger-ui.html
+
+OBS: o link está público para facilitar utilização no navegador.
+
+---
+
 ### 🚀 Como Executar
 
 Clonar o repositório ou fazer o download do projeto.
@@ -45,6 +55,16 @@ ou caso queira usar docker compose no modo detached:
 ```bash
 docker-compose up -d
 ```
+
+IMPORTANTE: Ao rodar pela primeira vez o projeto, ele irá cadastrar um usuário administrador. Os dados são os seguintes:
+
+var usuario = new Usuario(null, "admin@admin.com", "61299652069", "Admnistrator", passwordEncoder.encode("senha"), Set.of(roleAdmin));
+usuarioRepository.save(usuario);
+
+* email: admin@admin.com
+* cpf: 61299652069
+* nome: Admnistrator
+* senha: senha
 
 ---
 
