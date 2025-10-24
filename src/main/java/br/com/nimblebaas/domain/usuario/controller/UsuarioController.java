@@ -43,7 +43,7 @@ public class UsuarioController {
     @PostMapping("/sign-in")
     @Operation(summary = "Login de usuario", description = "Faz login do usuario na api")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Login realizado com sucesso"),
+            @ApiResponse(responseCode = "201", description = "Login realizado com sucesso"),
             @ApiResponse(responseCode = "400", description = "A requisição não pode ser processada"),
             @ApiResponse(responseCode = "401", description = "Não autorizado"),
             @ApiResponse(responseCode = "403", description = "Acesso negado"),

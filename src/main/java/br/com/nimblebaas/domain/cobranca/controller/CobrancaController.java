@@ -35,7 +35,7 @@ public class CobrancaController {
     @PostMapping("/criar-cobranca")
     @Operation(summary = "Criar uma nova cobrança", description = "Cria uma nova cobrança para um destinatário a partir do CPF")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Cobrança criada com sucesso"),
+            @ApiResponse(responseCode = "201", description = "Cobrança criada com sucesso"),
             @ApiResponse(responseCode = "400", description = "A requisição não pode ser processada"),
             @ApiResponse(responseCode = "401", description = "Não autorizado"),
             @ApiResponse(responseCode = "403", description = "Acesso negado"),
