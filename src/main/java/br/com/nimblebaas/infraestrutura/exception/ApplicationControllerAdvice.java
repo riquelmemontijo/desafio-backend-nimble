@@ -81,10 +81,20 @@ public class ApplicationControllerAdvice {
     }
 
     @ExceptionHandler(MethodArgumentTypeMismatchException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ProblemDetail handleMethodArgumentTypeMismatch(MethodArgumentTypeMismatchException ex, WebRequest request) {
         var problemDetail = ProblemDetail.forStatus(HttpStatus.BAD_REQUEST);
         problemDetail.setTitle("A requisição não pode ser processada");
         problemDetail.setDetail("Verifique os parâmetros enviados na requisição");
+        return problemDetail;
+    }
+
+    @ExceptionHandler(RegistroNaoEncontradoException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ProblemDetail handleRegistroNaoEncontradoException(RegistroNaoEncontradoException ex) {
+        var problemDetail = ProblemDetail.forStatus(HttpStatus.BAD_REQUEST);
+        problemDetail.setTitle("A requisição não pode ser processada");
+        problemDetail.setDetail(ex.getMessage());
         return problemDetail;
     }
 
