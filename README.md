@@ -58,9 +58,6 @@ docker-compose up -d
 
 IMPORTANTE: Ao rodar pela primeira vez o projeto, ele irá cadastrar um usuário administrador. Os dados são os seguintes:
 
-var usuario = new Usuario(null, "admin@admin.com", "61299652069", "Admnistrator", passwordEncoder.encode("senha"), Set.of(roleAdmin));
-usuarioRepository.save(usuario);
-
 * email: admin@admin.com
 * cpf: 61299652069
 * nome: Admnistrator
